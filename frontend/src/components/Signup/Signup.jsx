@@ -35,7 +35,7 @@ const Signup = () => {
     }
 
     try {
-      const url = 'http://localhost:8000/api/auth/signup'
+      const url = 'https://auth-project-yiln.onrender.com/api/auth/signup'
 
       const response = await fetch(url, {
         method: "POST",
