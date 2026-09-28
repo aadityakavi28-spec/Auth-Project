@@ -1,0 +1,68 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body */
+body {
+  background-color: #000; /* pure black */
+  color: #fff;
+  font-family: 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Scrollbar (cool effect) */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ff0000;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #cc0000;
+}
+
+/* Links */
+a {
+  color: #ff0000;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+a:hover {
+  text-shadow: 0 0 8px red;
+}
+
+/* Buttons (global style) */
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+}
+
+/* Inputs global */
+input {
+  font-family: inherit;
+}
+
+/* Selection (when user selects text) */
+::selection {
+  background: #ff0000;
+  color: #fff;
+}
+
+/* Optional container helper */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: auto;
+}
