@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import './Signup.css'
 import { handleError, handleSuccess } from '../../utils'
 
-const Signup = () => {
+const Signup = ({ setIsAuthenticated }) => {
 
   const [signupInfo, setSignupInfo] = useState({
     username: '',
@@ -15,7 +14,6 @@ const Signup = () => {
 
   const navigate = useNavigate()
 
-  // Handle input change
   const handleChange = (e) => {
     const { name, value } = e.target
 
@@ -24,7 +22,7 @@ const Signup = () => {
       [name]: value
     })
   }
-  // Handle form submit
+
   const handleSubmit = async (e) => {
     e.preventDefault()
 
@@ -46,17 +44,19 @@ const Signup = () => {
       })
 
       const result = await response.json()
-      const {success,message,error} = result
+      const { success, message, error } = result
 
-      if(success){
+      if (success) {
         handleSuccess(message)
-        setTimeout(()=>{
+
+        setTimeout(() => {
           navigate('/login')
-        },1000)
-      }else if(!success){
+        }, 1500)
+
+      } else if (!success) {
         handleError(message)
-      }
-      else{
+
+      } else {
         handleError(result.error || result.message || "Something went wrong")
       }
 
@@ -117,8 +117,6 @@ const Signup = () => {
           </p>
 
         </form>
-
-        <ToastContainer />
       </div>
     </div>
   )

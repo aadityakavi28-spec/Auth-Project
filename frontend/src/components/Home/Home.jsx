@@ -2,31 +2,34 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import './Home.css'
 import { handleSuccess } from '../../utils'
-import { ToastContainer } from 'react-toastify'
 
-const Home = () => {
+const Home = ({ setIsAuthenticated }) => {
 
   const [loggedInUser, setLoggedInUser] = useState('')
-
   const navigate = useNavigate()
 
   useEffect(() => {
     const user = localStorage.getItem("loggedInUser")
-    if (user) {
-      setLoggedInUser(user) 
+    const token = localStorage.getItem("token")
+
+    if (user && token) {
+      setLoggedInUser(user)
     } else {
-      navigate('/login') // protect route
+      navigate('/login')
     }
   }, [navigate])
 
   const handleLogout = () => {
     localStorage.removeItem('loggedInUser')
     localStorage.removeItem('token')
+
     handleSuccess('User Logged Out')
+
+    setIsAuthenticated(false)
 
     setTimeout(() => {
       navigate('/login')
-    }, 1000)
+    }, 1500)
   }
 
   return (
@@ -38,8 +41,6 @@ const Home = () => {
         <button className='logout-btn' onClick={handleLogout}>
           Logout
         </button>
-
-        <ToastContainer />
       </div>
     </div>
   )

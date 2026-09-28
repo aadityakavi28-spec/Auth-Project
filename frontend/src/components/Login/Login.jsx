@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import './Login.css'
 import { handleError, handleSuccess } from '../../utils'
 
-const Login = () => {
+const Login = ({ setIsAuthenticated }) => {
 
   const [loginInfo, setLoginInfo] = useState({
     email: '',
@@ -14,7 +13,6 @@ const Login = () => {
 
   const navigate = useNavigate()
 
-  // Handle input change
   const handleChange = (e) => {
     const { name, value } = e.target
 
@@ -24,7 +22,6 @@ const Login = () => {
     })
   }
 
-  // Handle form submit
   const handleSubmit = async (e) => {
     e.preventDefault()
 
@@ -44,28 +41,30 @@ const Login = () => {
       })
 
       const result = await response.json()
-            console.log("LOGIN RESPONSE:", result);
-            const {success, message, username, jwtToken ,error} = result
-      
-            if(success){
-              handleSuccess(message)
-              localStorage.setItem('token',jwtToken)
-              localStorage.setItem('loggedInUser',result.user.username)
-              
-              setTimeout(()=>{
-                navigate('/home')
-              },1000)
-            }else if(!success){
-              handleError(message)
-            }
-            else{
-              handleError(result.error || result.message || "Something went wrong")
-            }
-      
-          } catch (error) {
-            handleError(error.message || 'SERVER ERROR')
-          }
-        }
+      console.log("LOGIN RESPONSE:", result)
+
+      const { success, message, user, jwtToken } = result
+
+      if (success) {
+        localStorage.setItem('token', jwtToken || 'logged')
+        localStorage.setItem('loggedInUser', user?.username)
+
+        setIsAuthenticated(true)
+
+        handleSuccess(message)
+
+        setTimeout(() => {
+          navigate('/home')
+        }, 1500)
+
+      } else {
+        handleError(message)
+      }
+
+    } catch (error) {
+      handleError(error.message || 'SERVER ERROR')
+    }
+  }
 
   return (
     <div className='login-container'>
@@ -106,8 +105,6 @@ const Login = () => {
           </p>
 
         </form>
-
-        <ToastContainer />
       </div>
     </div>
   )
